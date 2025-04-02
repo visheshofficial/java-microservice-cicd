@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 'Start build job'
+        run: |
+          echo "Starting the build job."
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,15 +27,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-    #   # Cache Maven dependencies
-    #   - name: Cache Maven dependencies
-    #     uses: actions/cache@v3
-    #     with:
-    #       path: ~/.m2/repository
-    #       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-    #       restore-keys: |
-    #         ${{ runner.os }}-maven-
+      # Cache Maven dependencies
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-    #   # Build and test the project
-    #   - name: Build and test
-    #     run: mvn clean verify
+      # Build and test the project
+      - name: Build and test
+        run: mvn clean verify
+
+      # Package the application into a JAR
+      - name: Build JAR file
+        run: mvn package
