@@ -44,9 +44,14 @@ jobs:
       - name: Build JAR file
         run: mvn package
 
-      # Publish the JAR file as an artifact
+      # Extract version from pom.xml
+      - name: Extract version
+        id: extract_version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      # Publish the JAR file as an artifact with version
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: application-jar
+          name: application-${{ env.VERSION }}.jar
           path: target/*.jar
