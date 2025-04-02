@@ -36,18 +36,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Build and test the project
-      - name: Build and test
-        run: mvn clean verify
-
-      # Package the application into a JAR
-      - name: Build JAR file
-        run: mvn package
-
       # Extract version from pom.xml
       - name: Extract version
         id: extract_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      # Build and test the project
+      - name: Build and test
+        run: mvn clean verify
+
+      # Publish test reports
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ env.VERSION }}
+          path: target/surefire-reports/*.xml
+
+      # Package the application into a JAR
+      - name: Build JAR file
+        run: mvn package
 
       # Publish the JAR file as an artifact with version
       - name: Upload JAR artifact
