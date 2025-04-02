@@ -1,3 +1,6 @@
+
+[![Demo CI for Java Microservice](https://github.com/visheshofficial/java-microservice-cicd/actions/workflows/ci.yml/badge.svg)](https://github.com/visheshofficial/java-microservice-cicd/actions/workflows/ci.yml)
+
 # Getting Started
 
 ### Reference Documentation
