@@ -43,3 +43,10 @@ jobs:
       # Package the application into a JAR
       - name: Build JAR file
         run: mvn package
+
+      # Publish the JAR file as an artifact
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: application-jar
+          path: target/*.jar
